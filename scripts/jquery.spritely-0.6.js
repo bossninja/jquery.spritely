@@ -1,5 +1,5 @@
 /*
- * jQuery spritely 0.6
+ * jQuery spritely 0.6.
  * http://spritely.net/
  *
  * Documentation:
@@ -162,7 +162,7 @@
                 }
             }
             $._spritely.instances[el_id]['options'] = options;
-            window.setTimeout(function() {
+            $._spritely.instances[el_id]['timeout'] = window.setTimeout(function() {
                 $._spritely.animate(options);
             }, parseInt(1000 / options.fps));
         },
@@ -487,7 +487,7 @@
                 $._spritely.instances[el_id]['locked_el'] = $(this);
                 $._spritely.instances[el_id]['lock_to'] = $(el);
                 $._spritely.instances[el_id]['lock_to_options'] = options;
-                window.setInterval(function() {
+                $._spritely.instances[el_id]['interval'] = window.setInterval(function() {
                     if ($._spritely.instances[el_id]['lock_to']) {
                         var locked_el = $._spritely.instances[el_id]['locked_el'];
                         var locked_to_el = $._spritely.instances[el_id]['lock_to'];
@@ -511,6 +511,8 @@
         destroy: function() {
             var el = $(this);
             var el_id = $(this).attr('id');
+            window.clearInterval($._spritely.instances[el_id]['interval']);
+            window.clearTimeout($._spritely.instances[el_id]['timeout']);
             delete $._spritely.instances[el_id]
             return this;
         }
